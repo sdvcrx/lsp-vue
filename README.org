@@ -1,0 +1,45 @@
+* lsp-vtsls
+
+The Emacs [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for [[https://github.com/vuejs/language-tools/][vue LSP]] v3.
+
+* Installation
+** Doom Emacs
+Add =lsp-vue= and [[https://github.com/sdvcrx/lsp-vtsls][lsp-vtsls]] ([[https://github.com/vuejs/language-tools/discussions/5456][vue LSP currently only work with vtsls]]):
+
+#+begin_src elisp
+;; packages.el
+(package! lsp-vue :recipe (:host github :repo "sdvcrx/lsp-vue"))
+(package! lsp-vtsls :recipe (:host github :repo "sdvcrx/lsp-vtsls"))
+
+;; config.el
+(use-package! lsp-vue
+  :after lsp-mode
+  :config
+  (setq lsp-vtsls-typescript-global-plugins
+        (vector
+         (list :name "@vue/typescript-plugin"
+               :location (f-join (lsp-package-path 'vue-language-server) "../.." "lib/node_modules/@vue/language-server/")
+               :languages (vector "vue")
+               :configNamespace "typescript"
+               :enableForWorkspaceTypeScriptVersions t))))
+
+(use-package! lsp-vtsls
+  :after lsp-mode
+  :config
+  (add-to-list 'lsp-vtsls-activate-languages "vue")
+  (setq
+   ;; show all LSP doc on minibuffer
+   lsp-eldoc-render-all t
+
+   ;; https://github.com/yioneko/vtsls#bad-performance-of-completion
+   lsp-vtsls-server-side-fuzzy-match t
+   lsp-vtsls-entries-limit 10))
+#+end_src
+
+Install =vue= LSP:
+
++ =M+x lsp-install-server= then select =vue-ls= (and =vtsls=) .
+
+* See also
++ [[https://github.com/emacs-lsp/lsp-mode/blob/master/clients/lsp-volar.el][lsp-mode > lsp-volar.el]]
++ [[https://github.com/sdvcrx/lsp-vtsls][lsp-vtsls]]
