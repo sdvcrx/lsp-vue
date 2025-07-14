@@ -1,4 +1,4 @@
-* lsp-vtsls
+* lsp-vue
 
 The Emacs [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for [[https://github.com/vuejs/language-tools/][vue LSP]] v3.
 
